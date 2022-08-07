@@ -17,6 +17,7 @@ console.log('It\'s a cult classic called...');
 console.log('Rock, Paper, Scissors');
 console.log('');
 
+
 function getComputerChoice() {
     let randomNumber = Math.floor(Math.random() * 3)
     switch(randomNumber) {
@@ -50,32 +51,54 @@ function getPlayerChoice() {
 
 let playerSelection = getPlayerChoice();
 
+
+let playerScore = 0;
+let computerScore = 0;
+let roundWinner = '';
+
+function playRound(playerSelection, computerSelection) {
+    if ((playerSelection == undefined) || (playerSelection == null)) {
+        roundWinner = 'computer';
+        computerScore++;
+    }
+    if (
+        (playerSelection == 'Rock' && computerSelection == 'Scissors') ||
+        (playerSelection == 'Paper' && computerSelection == 'Rock') ||
+        (playerSelection == 'Scissors' && computerSelection == 'Paper')
+    ) { 
+        roundWinner = 'player';
+        playerScore++;
+    }
+    if (
+        (computerSelection == 'Rock' && playerSelection == 'Scissors') ||
+        (computerSelection == 'Paper' && playerSelection == 'Rock') ||
+        (computerSelection == 'Scissors' && playerSelection == 'Paper')
+    ) { 
+        roundWinner = 'computer';
+        computerScore++;
+    }
+    if (playerSelection == computerSelection) { 
+        roundWinner = 'tie';
+    }
+    updateScoreMessage(roundWinner, playerSelection, computerSelection);
+}
+
+function updateScoreMessage(roundWinner, playerSelection, computerSelection) {
+    if (roundWinner == 'player') {
+        console.log(`You win! ${playerSelection} beats ${computerSelection}`);
+    } 
+    if (roundWinner == 'computer') {
+        console.log(`You lose! ${computerSelection} beats ${playerSelection}`);
+    }
+    if (roundWinner = 'tie') {
+        console.log(`Tie game! ${playerSelection} ties ${computerSelection}`);
+    }
+}
+
+
 console.log(`Computer chose: ${computerSelection}`);
-console.log(`Player chose: ${playerSelection}`);
-
-
-if ((playerSelection == undefined) || (playerSelection == null)) {
-    console.log(`You lose! Mistypes & esc/Cancel button are not valid.`)
-}
-if (
-    (playerSelection == 'Rock' && computerSelection == 'Scissors') ||
-    (playerSelection == 'Paper' && computerSelection == 'Rock') ||
-    (playerSelection == 'Scissors' && computerSelection == 'Paper')
-) { 
-    console.log(`You win! ${playerSelection} beats ${computerSelection}`);
-}
-if (
-    (computerSelection == 'Rock' && playerSelection == 'Scissors') ||
-    (computerSelection == 'Paper' && playerSelection == 'Rock') ||
-    (computerSelection == 'Scissors' && playerSelection == 'Paper')
-) { 
-    console.log(`You lose! ${computerSelection} beats ${playerSelection}`);
-}
-if (
-    (playerSelection == 'Rock' && computerSelection == 'Rock') ||
-    (playerSelection == 'Paper' && computerSelection == 'Paper') ||
-    (playerSelection == 'Scissors' && computerSelection == 'Scissors')
-) { 
-    console.log(`Tie game! ${playerSelection} ties ${computerSelection}`);
-}
-
+console.log(`You chose: ${playerSelection}`);
+console.log('');
+console.log(`playerScore is ${playerScore}`);
+console.log(`computerScore is ${computerScore}`);
+console.log(`roundWinner is ${roundWinner}`);
