@@ -10,6 +10,6 @@ It's Rock Paper Scissors time!
 
 
 ## Lessons Learned:
-> 
->
->
+> How to randomize a computer choice
+> How to implement logic on a multitude of outcomes and update/keep score
+> Deepend my knowledge of how functions work together
