@@ -1,12 +1,54 @@
+// initializing starting score and buttons
+let playerScore = 0;
+let computerScore = 0;
+let roundWinner = '';
+
+// constants for UI - button clicks, updating messages from JS -> HTML
+const rockBtn = document.querySelector('#rock');
+const paperBtn = document.querySelector('#paper');
+const scissorsBtn = document.querySelector('#scissors');
+const restartBtn = document.querySelector('#restart');
+const playerSelectionHTML = document.querySelector('#playerSelection');
+const computerSelectionHTML = document.querySelector('#computerSelection');
+const roundWinnerHTML = document.querySelector('#roundWinner');
+const playerScoreHTML = document.querySelector('#playerScore');
+const computerScoreHTML = document.querySelector('#computerScore');
+const gameWinnerHTML = document.querySelector('#gameWinner');
+const welcomeMessageHTML = document.querySelector('#welcome');
+
+playerSelectionHTML.textContent = `You chose:`
+computerSelectionHTML.textContent = `Computer chose:`
+roundWinnerHTML.textContent = `Round winner:`
+playerScoreHTML.textContent = `Your score: ${playerScore}`
+computerScoreHTML.textContent = `Computer score: ${computerScore}` 
+
 // welcome messages
-console.log('Let\'s play a game...');
-console.log('You may have heard of it, perhaps even played it...');
-console.log('It\'s a cult classic called...');
-console.log('Rock, Paper, Scissors');
-console.log('');
-console.log('You will play 5 rounds total, first to 3 wins!')
-console.log('');
-console.log('');
+function startMessages () {
+    welcomeMessageHTML.textContent = 'Let\'s play Rock, Paper, Scissors!'
+    const p0 = document.createElement('p')
+    p0.textContent = 'Rules:'
+    const p1 = document.createElement('p')
+    p1.textContent = '--------------------'
+    const p2 = document.createElement('p')
+    p2.textContent = 'Rock > Scissors > Paper'
+    const p3 = document.createElement('p')
+    p3.textContent = 'Paper > Rock > Scissors'
+    const p4 = document.createElement('p')
+    p4.textContent = 'Tie games give +1 to both player & computer'
+    const p5 = document.createElement('p')
+    p5.textContent = 'First to 3 points wins!'
+    const p6 = document.createElement('p')
+    p6.textContent = '--------------------'
+    welcomeMessageHTML.appendChild(p0);
+    welcomeMessageHTML.appendChild(p1);
+    welcomeMessageHTML.appendChild(p2);
+    welcomeMessageHTML.appendChild(p3);
+    welcomeMessageHTML.appendChild(p4);
+    welcomeMessageHTML.appendChild(p5);
+    welcomeMessageHTML.appendChild(p6);
+}
+
+startMessages();
 
 // function to randomly choose computer choice
 function getComputerChoice() {
@@ -21,99 +63,99 @@ function getComputerChoice() {
     }
 }
 
-const computerSelection = getComputerChoice();
+// button press functions and events
+rockBtn.addEventListener('click', () => {
+    playerSelection = 'Rock';
+    computerSelection = getComputerChoice();
+    playRound(playerSelection, computerSelection);
+});
+paperBtn.addEventListener('click', () => {
+    playerSelection = 'Paper';
+    computerSelection = getComputerChoice();
+    playRound(playerSelection, computerSelection);
+});
+scissorsBtn.addEventListener('click', () => {
+    playerSelection = 'Scissors';
+    computerSelection = getComputerChoice();
+    playRound(playerSelection, computerSelection);
+});
+restartBtn.addEventListener('click', () => {
+    gameRestart();
+})
 
-// function to take any caps/lowers of player string and convert to Proper spelling 
-function getPlayerChoice() {
-    let playerChoice = prompt('Rock, Paper, or Scissors')
-    if (playerChoice == undefined) {
-        return alert('Type in only Rock, Paper, or Scissors. Typing in wrong choice or esc/Cancel is a round loss.');
-    } 
-    playerChoice = playerChoice.toLowerCase();
-    if (playerChoice === 'rock') {
-        return 'Rock';
-    } else if (playerChoice === 'paper') {
-        return 'Paper';
-    } else if (playerChoice === 'scissors') {
-        return 'Scissors';
-    } else {
-        return alert('Type in only Rock, Paper, or Scissors. Typing in wrong choice or esc/Cancel is a round loss.');
-    }
-}
+// make restart button disabled until end of game
+restartBtn.hidden = true;
 
-let playerSelection = getPlayerChoice();
-
-// initializing starting score
-let playerScore = 0;
-let computerScore = 0;
-let roundWinner = '';
-
-// function to declare winner of the round and add 1 point to score
+// function to declare winner of the round and update score
 function playRound(playerSelection, computerSelection) {
-    // deciding when there is a tie
-    if (playerSelection == computerSelection) { 
-        roundWinner = 'tie';
+    if (playerSelection == computerSelection) { // deciding when there is a tie
+        roundWinner = 'It is a draw. +1 to you both.';
         playerScore++;
         computerScore++;
     }
-    // deciding when the player wins
-    if (
+    if ( // deciding when the player wins
         (playerSelection == 'Rock' && computerSelection == 'Scissors') ||
         (playerSelection == 'Paper' && computerSelection == 'Rock') ||
         (playerSelection == 'Scissors' && computerSelection == 'Paper')
     ) { 
-        roundWinner = 'player';
+        roundWinner = 'You';
         playerScore++;
     }
-    // deciding when the computer wins
-    if (
+    if ( // deciding when the computer wins
         (computerSelection == 'Rock' && playerSelection == 'Scissors') ||
         (computerSelection == 'Paper' && playerSelection == 'Rock') ||
         (computerSelection == 'Scissors' && playerSelection == 'Paper') ||
         ((playerSelection == undefined) || (playerSelection == null))
     ) { 
-        roundWinner = 'computer';
+        roundWinner = 'Computer';
         computerScore++;
     }
+    playerSelectionHTML.textContent = `You chose: ${playerSelection}`
+    computerSelectionHTML.textContent = `Computer chose: ${computerSelection}`
+    roundWinnerHTML.textContent = `Round winner: ${roundWinner}`
+    playerScoreHTML.textContent = `Your score: ${playerScore}`
+    computerScoreHTML.textContent = `Computer score: ${computerScore}`
+    gameOver(playRound);
 }
 
-// function to announce the winner of the round
-function updateMessage (roundWinner, playerSelection, computerSelection) {
-    if (roundWinner == 'player') {
-        console.log(`You win! ${playerSelection} beats ${computerSelection}`);
-    } 
-    if (roundWinner == 'computer') {
-        console.log(`You lose! ${computerSelection} beats ${playerSelection}`);
-    }
-    if (roundWinner == 'tie') {
-        console.log(`Tie game! ${playerSelection} ties ${computerSelection}`);
-    }
-}
-
-playRound(playerSelection, computerSelection);
-updateMessage(roundWinner, playerSelection, computerSelection);
-
-// function to keep score of and alert winner of game - best 3 out of 5 rounds
+// function to keep score of and alert winner of game - first to 3 points wins!
 function gameOver(playRound) {
-    if ((playerScore == 3) || (computerScore == 3)) {
+    if ((playerScore === 3) && (computerScore === 3)) {
+        gameWinnerHTML.textContent = 'NEXT POINT WINS. GIVE IT YOUR BEST SHOT!'
+    }
+    if (((playerScore === 3) || (computerScore === 3)) || ((playerScore >= 3) || (computerScore >= 3))) {
         if (playerScore > computerScore) {
-            console.log(`You win! You beat the computer ${playerScore} to ${computerScore}`);
-        }
-        else if (playerScore < computerScore) {
-            console.log(`The computer wins! It beat you ${computerScore} to ${playerScore}`)
-        }
-        else {
-            console.log(`It\'s a tie game! This is what happens when an Unstoppable Force meets an Immovable Object`)
+            gameWinnerHTML.textContent = `You win! You beat the computer ${playerScore} to ${computerScore}.`
+            // disables buttons once winner is made
+            rockBtn.disabled = true; 
+            paperBtn.disabled = true;
+            scissorsBtn.disabled = true;
+            restartBtn.hidden = false;
+        } else if (playerScore < computerScore) {
+            gameWinnerHTML.textContent = `You lose! The computer beat you ${computerScore} to ${playerScore}.`
+            // disables buttons once winner is made
+            rockBtn.disabled = true;
+            paperBtn.disabled = true;
+            scissorsBtn.disabled = true;
+            restartBtn.hidden = false;
         }
     }
 }
 
-gameOver(playRound);
-
-// Here we log all important messages to the console for the player to see - will add GUI later
-console.log(`Computer chose: ${computerSelection}`);
-console.log(`You chose: ${playerSelection}`);
-console.log('');
-console.log(`playerScore is ${playerScore}`);
-console.log(`computerScore is ${computerScore}`);
-console.log(`roundWinner is ${roundWinner}`);
+// function to restart game, reset score, and enable buttons
+function gameRestart() {
+    playerScore = 0;
+    computerScore = 0;
+    roundWinner = '';
+    playerSelectionHTML.textContent = `You chose:`
+    computerSelectionHTML.textContent = `Computer chose:`
+    roundWinnerHTML.textContent = `Round winner:`
+    playerScoreHTML.textContent = `Your score: ${playerScore}`
+    computerScoreHTML.textContent = `Computer score: ${computerScore}`
+    gameWinnerHTML.textContent = '';
+    rockBtn.disabled = false;
+    paperBtn.disabled = false;
+    scissorsBtn.disabled = false;
+    restartBtn.hidden = true;
+    startMessages();
+}
