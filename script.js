@@ -16,8 +16,8 @@ const computerScoreHTML = document.querySelector('#computerScore');
 const gameWinnerHTML = document.querySelector('#gameWinner');
 const welcomeMessageHTML = document.querySelector('#welcome');
 
-playerSelectionHTML.textContent = `You chose:`
-computerSelectionHTML.textContent = `Computer chose:`
+playerSelectionHTML.textContent = `Your choice:`
+computerSelectionHTML.textContent = `Computer choice:`
 roundWinnerHTML.textContent = `Round winner:`
 playerScoreHTML.textContent = `Your score: ${playerScore}`
 computerScoreHTML.textContent = `Computer score: ${computerScore}` 
@@ -110,8 +110,8 @@ function playRound(playerSelection, computerSelection) {
         roundWinner = 'Computer';
         computerScore++;
     }
-    playerSelectionHTML.textContent = `You chose: ${playerSelection}`
-    computerSelectionHTML.textContent = `Computer chose: ${computerSelection}`
+    playerSelectionHTML.textContent = `Your choice: ${playerSelection}`
+    computerSelectionHTML.textContent = `Computer choice: ${computerSelection}`
     roundWinnerHTML.textContent = `Round winner: ${roundWinner}`
     playerScoreHTML.textContent = `Your score: ${playerScore}`
     computerScoreHTML.textContent = `Computer score: ${computerScore}`
@@ -147,8 +147,8 @@ function gameRestart() {
     playerScore = 0;
     computerScore = 0;
     roundWinner = '';
-    playerSelectionHTML.textContent = `You chose:`
-    computerSelectionHTML.textContent = `Computer chose:`
+    playerSelectionHTML.textContent = `Your choice:`
+    computerSelectionHTML.textContent = `Computer choice:`
     roundWinnerHTML.textContent = `Round winner:`
     playerScoreHTML.textContent = `Your score: ${playerScore}`
     computerScoreHTML.textContent = `Computer score: ${computerScore}`
