@@ -7,7 +7,9 @@ let roundWinner = '';
 const rockBtn = document.querySelector('#rock');
 const paperBtn = document.querySelector('#paper');
 const scissorsBtn = document.querySelector('#scissors');
-const restartBtn = document.querySelector('#restart');
+const restartBtn0 = document.querySelector('#restart0');
+const restartBtn1 = document.querySelector('#restart1');
+const restartBtn2 = document.querySelector('#restart2');
 const playerSelectionHTML = document.querySelector('#playerSelection');
 const computerSelectionHTML = document.querySelector('#computerSelection');
 const roundWinnerHTML = document.querySelector('#roundWinner');
@@ -26,26 +28,8 @@ computerScoreHTML.textContent = `Computer score: ${computerScore}`
 function startMessages () {
     welcomeMessageHTML.textContent = 'Let\'s play Rock, Paper, Scissors!'
     const p0 = document.createElement('p')
-    p0.textContent = 'Rules:'
-    const p1 = document.createElement('p')
-    p1.textContent = '--------------------'
-    const p2 = document.createElement('p')
-    p2.textContent = 'Rock > Scissors > Paper'
-    const p3 = document.createElement('p')
-    p3.textContent = 'Paper > Rock > Scissors'
-    const p4 = document.createElement('p')
-    p4.textContent = 'Tie games give +1 to both player & computer'
-    const p5 = document.createElement('p')
-    p5.textContent = 'First to 3 points wins!'
-    const p6 = document.createElement('p')
-    p6.textContent = '--------------------'
+    p0.textContent = ''
     welcomeMessageHTML.appendChild(p0);
-    welcomeMessageHTML.appendChild(p1);
-    welcomeMessageHTML.appendChild(p2);
-    welcomeMessageHTML.appendChild(p3);
-    welcomeMessageHTML.appendChild(p4);
-    welcomeMessageHTML.appendChild(p5);
-    welcomeMessageHTML.appendChild(p6);
 }
 
 startMessages();
@@ -79,12 +63,20 @@ scissorsBtn.addEventListener('click', () => {
     computerSelection = getComputerChoice();
     playRound(playerSelection, computerSelection);
 });
-restartBtn.addEventListener('click', () => {
+restartBtn0.addEventListener('click', () => {
+    gameRestart();
+})
+restartBtn1.addEventListener('click', () => {
+    gameRestart();
+})
+restartBtn2.addEventListener('click', () => {
     gameRestart();
 })
 
 // make restart button disabled until end of game
-restartBtn.hidden = true;
+restartBtn0.hidden = true;
+restartBtn1.hidden = true;
+restartBtn2.hidden = true;
 
 // function to declare winner of the round and update score
 function playRound(playerSelection, computerSelection) {
@@ -121,24 +113,27 @@ function playRound(playerSelection, computerSelection) {
 // function to keep score of and alert winner of game - first to 3 points wins!
 function gameOver(playRound) {
     if ((playerScore === 3) && (computerScore === 3)) {
-        gameWinnerHTML.textContent = 'NEXT POINT WINS. GIVE IT YOUR BEST SHOT!'
+        gameWinnerHTML.textContent = 'NEXT POINT WINS. GOOD LUCK!'
     }
     if (((playerScore === 3) || (computerScore === 3)) || ((playerScore >= 3) || (computerScore >= 3))) {
         if (playerScore > computerScore) {
             gameWinnerHTML.textContent = `You win! You beat the computer ${playerScore} to ${computerScore}.`
-            // disables buttons once winner is made
-            rockBtn.disabled = true; 
-            paperBtn.disabled = true;
-            scissorsBtn.disabled = true;
-            restartBtn.hidden = false;
+            // hides buttons once winner is made
+            rockBtn.hidden = true; 
+            paperBtn.hidden = true;
+            scissorsBtn.hidden = true;
+            restartBtn0.hidden = false;
+            restartBtn1.hidden = false;
+            restartBtn2.hidden = false;
         } else if (playerScore < computerScore) {
             gameWinnerHTML.textContent = `You lose! The computer beat you ${computerScore} to ${playerScore}.`
-            // disables buttons once winner is made
-            rockBtn.disabled = true;
-            paperBtn.disabled = true;
-            scissorsBtn.disabled = true;
-            restartBtn.hidden = false;
-        }
+            // hides buttons once winner is made
+            rockBtn.hidden = true;
+            paperBtn.hidden = true;
+            scissorsBtn.hidden = true;
+            restartBtn0.hidden = false;
+            restartBtn1.hidden = false;
+            restartBtn2.hidden = false;        }
     }
 }
 
@@ -153,9 +148,11 @@ function gameRestart() {
     playerScoreHTML.textContent = `Your score: ${playerScore}`
     computerScoreHTML.textContent = `Computer score: ${computerScore}`
     gameWinnerHTML.textContent = '';
-    rockBtn.disabled = false;
-    paperBtn.disabled = false;
-    scissorsBtn.disabled = false;
-    restartBtn.hidden = true;
+    rockBtn.hidden = false;
+    paperBtn.hidden = false;
+    scissorsBtn.hidden = false;
+    restartBtn0.hidden = true;
+    restartBtn1.hidden = true;
+    restartBtn2.hidden = true;
     startMessages();
 }
